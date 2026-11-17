@@ -198,3 +198,5 @@ footer .wrap{padding-block:6px 30px;text-align:center}
 @media (prefers-reduced-motion:reduce){
   #intro.go .lg,#intro.go .t1,#intro.go .t2,#intro.go .stamp{animation:fadeup .4s ease forwards}
   #intro{transition:opacity .5s}#intro.out{clip-path:none;opacity:0}}
+
+.bk .setx{fill:var(--ink);font-weight:700}

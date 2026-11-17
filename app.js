@@ -92,8 +92,8 @@ function viewLeague(){
 }
 
 /* ---------- トーナメント表 ---------- */
-function est(s,z){var l=0;String(s).split('').forEach(function(c){l+=c.charCodeAt(0)>255?z:z*0.58});return l}
-function fitText(x,y,t,z,maxw,cls,anchor){var s=z;while(s>6.5&&est(t,s)>maxw)s-=0.5;return '<text x="'+x+'" y="'+y+'" font-size="'+s+'"'+(anchor?' text-anchor="'+anchor+'"':'')+(cls?' class="'+cls+'"':'')+'>'+esc(t)+'</text>'}
+function est(s,z){var l=0;String(s).split('').forEach(function(c){l+=c.charCodeAt(0)>255?z*1.02:(/[A-Z0-9]/.test(c)?z*0.66:z*0.56)});return l}
+function fitText(x,y,t,z,maxw,cls,anchor){var s=z;while(s>5.5&&est(t,s)>maxw)s-=0.25;return '<text x="'+x+'" y="'+y+'" font-size="'+s+'"'+(anchor?' text-anchor="'+anchor+'"':'')+(cls?' class="'+cls+'"':'')+'>'+esc(t)+'</text>'}
 function line(p,k){var col=k==='win'?'var(--path-win)':k==='lose'?'var(--path-lose)':'var(--path-none)';return '<polyline'+(k==='win'?' class="glow" style="color:'+col+'"':'')+' points="'+p+'" fill="none" stroke="'+col+'" stroke-width="'+(k==='win'?4.5:1.8)+'" stroke-linejoin="round" stroke-linecap="round"/>'}
 function stag(x,y,v){return '<rect class="scbg" x="'+(x-10)+'" y="'+(y-11)+'" width="20" height="14" rx="3"/><text x="'+x+'" y="'+y+'" font-size="10" text-anchor="middle" class="sct">'+v+'</text>'}
 function bracket(d){
@@ -108,14 +108,16 @@ function bracket(d){
   var h='';
   (function draw(n){if(n.team)return;var o=RES[d+n.id];
     n.k.forEach(function(kid,i){var isA=i===0,k=(isA===o.aw)?'win':'lose';h+=line(kid.x+','+kid.y+' '+n.x+','+kid.y+' '+n.x+','+n.y,k);h+=stag(n.x-13,kid.y-3,isA?o.sa:o.sb)+(o.m.v&&(isA===o.aw)?'<text x="'+(n.x-26)+'" y="'+(kid.y-4)+'" font-size="9" text-anchor="end" class="sub">V</text>':'');draw(kid)});
-    h+='<text x="'+(n.x+4)+'" y="'+(n.y+12)+'" font-size="8.5" class="sub">'+n.id+'</text>'})(tree);
+    h+='<text x="'+(n.x+4)+'" y="'+(n.y+12)+'" font-size="8.5" class="sub">'+n.id+'</text>';
+    if(o.m.sets&&n!==tree)o.m.sets.forEach(function(st,i){h+='<text x="'+(n.x+4)+'" y="'+(n.y+23+i*10)+'" font-size="8" class="setx">'+(i+1)+') '+st[0]+'-'+st[1]+(st[2]?' V':'')+'</text>'})})(tree);
   var rt=RES[d+root];
   h+=line(tree.x+','+tree.y+' '+(W-champW-2)+','+tree.y,'win');
   leaves.forEach(function(l){var won=rt.win===l.team;h+='<rect class="box'+(won?' won':'')+'" x="2" y="'+(l.y-15)+'" width="'+(boxW-4)+'" height="30" rx="7"/><text x="9" y="'+(l.y-4)+'" font-size="8" class="sub">'+esc(T.seeds[l.team]||'')+'</text>'+fitText(9,l.y+10,l.team,11,boxW-16)});
   var cy=tree.y;
   h+='<rect class="champ" x="'+(W-champW)+'" y="'+(cy-22)+'" width="'+champW+'" height="44" rx="9"/><text x="'+(W-champW/2)+'" y="'+(cy-7)+'" font-size="9.5" text-anchor="middle" class="champtx">🏆 優勝</text>'+fitText(W-champW/2,cy+11,rt.win,11.5,champW-8,'champtx','middle');
   h+='<rect class="runner" x="'+(W-champW)+'" y="'+(cy+28)+'" width="'+champW+'" height="40" rx="9"/><text x="'+(W-champW/2)+'" y="'+(cy+42)+'" font-size="9" text-anchor="middle" class="runtx">🥈 準優勝</text>'+fitText(W-champW/2,cy+59,rt.lose,11,champW-8,'runtx','middle');
-  var hgt=top+18+(leaves.length-1)*gap+26;
+  var fs=T.m[root].sets;if(fs){h+='<text x="'+(W-champW/2)+'" y="'+(cy+82)+'" font-size="8.5" text-anchor="middle" class="sub">決勝のセット</text>';fs.forEach(function(st,i){h+='<text x="'+(W-champW/2)+'" y="'+(cy+95+i*11)+'" font-size="9.5" text-anchor="middle" class="setx">'+(i+1)+') '+st[0]+'-'+st[1]+(st[2]?' V':'')+'</text>'})}
+  var hgt=Math.max(top+18+(leaves.length-1)*gap+26,cy+95+(fs?fs.length*11:0));
   return '<div class="bk-wrap"><svg class="bk" viewBox="0 0 '+W+' '+hgt+'" role="img" aria-label="'+DIVN[d]+'の決勝トーナメント表">'+h+'</svg></div>';
 }
 function viewTour(){
