@@ -118,7 +118,8 @@ function bracket(d){
   h+='<rect class="runner" x="'+(W-champW)+'" y="'+(cy+28)+'" width="'+champW+'" height="40" rx="9"/><text x="'+(W-champW/2)+'" y="'+(cy+42)+'" font-size="9" text-anchor="middle" class="runtx">🥈 準優勝</text>'+fitText(W-champW/2,cy+59,rt.lose,11,champW-8,'runtx','middle');
   var fs=T.m[root].sets;if(fs){h+='<text x="'+(W-champW/2)+'" y="'+(cy+82)+'" font-size="8.5" text-anchor="middle" class="sub">決勝のセット</text>';fs.forEach(function(st,i){h+='<text x="'+(W-champW/2)+'" y="'+(cy+95+i*11)+'" font-size="9.5" text-anchor="middle" class="setx">'+(i+1)+') '+st[0]+'-'+st[1]+(st[2]?' V':'')+'</text>'})}
   var hgt=Math.max(top+18+(leaves.length-1)*gap+26,cy+95+(fs?fs.length*11:0));
-  return '<div class="bk-wrap"><svg class="bk" viewBox="0 0 '+W+' '+hgt+'" role="img" aria-label="'+DIVN[d]+'の決勝トーナメント表">'+h+'</svg></div>';
+  var defs='<defs><linearGradient id="gbox'+d+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="gb1"/><stop offset=".55" class="gb2"/><stop offset="1" class="gb3"/></linearGradient><linearGradient id="gch'+d+'" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF9CC2"/><stop offset=".55" stop-color="#E8578F"/><stop offset="1" stop-color="#B8337A"/></linearGradient><linearGradient id="gsc'+d+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F27AAB"/><stop offset="1" stop-color="#C2306E"/></linearGradient></defs>';h=h.replace(/class="box/g,'fill="url(#gbox'+d+')" class="box').replace(/class="champ"/g,'fill="url(#gch'+d+')" class="champ"').replace(/class="scbg"/g,'fill="url(#gsc'+d+')" class="scbg"');
+  return '<div class="bk-wrap"><svg class="bk" viewBox="0 0 '+W+' '+hgt+'" role="img" aria-label="'+DIVN[d]+'の決勝トーナメント表">'+defs+h+'</svg></div>';
 }
 function viewTour(){
   var d=tdiv,F=FINAL[d],T=TR[d];

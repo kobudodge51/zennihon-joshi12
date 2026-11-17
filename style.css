@@ -133,12 +133,12 @@ tr.hl td.name{color:var(--red)}
 .bk{width:100%;height:auto;display:block}
 .bk text{font-family:var(--font);fill:var(--ink)}
 .bk .sub{fill:var(--muted)}
-.bk .box{fill:var(--surface2);stroke:var(--line)}
+.bk .box{stroke:var(--line)}
 .bk .box.won{stroke:var(--red);stroke-width:1.6}
-.bk .champ{fill:var(--red)}.bk .champtx{fill:#fff;font-weight:700}
+.bk .champ{}.bk .champtx{fill:#fff;font-weight:700}
 .bk .runner{fill:var(--surface);stroke:#8C949C;stroke-width:1.5}.bk .runtx{fill:var(--ink);font-weight:700}
-.bk .scbg{fill:#D6457F}
-:root[data-theme="dark"] .bk .scbg{fill:#C2457E}
+.bk .scbg{}
+
 .bk .sct{font-weight:700;fill:#fff}
 .bk .glow{filter:drop-shadow(0 0 2px currentColor)}
 .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
@@ -200,3 +200,91 @@ footer .wrap{padding-block:6px 30px;text-align:center}
   #intro{transition:opacity .5s}#intro.out{clip-path:none;opacity:0}}
 
 .bk .setx{fill:var(--ink);font-weight:700}
+
+/* ===== 光沢・グラデーション強化 ===== */
+:root{--gloss:linear-gradient(180deg,rgba(255,255,255,.55) 0%,rgba(255,255,255,.12) 48%,rgba(255,255,255,0) 52%,rgba(255,255,255,.08) 100%)}
+:root[data-theme="dark"]{--gloss:linear-gradient(180deg,rgba(255,255,255,.14) 0%,rgba(255,255,255,.04) 48%,rgba(255,255,255,0) 52%)}
+header.top{background:linear-gradient(100deg,#F57AA8 0%,#E04A86 50%,#B85BC9 100%)}
+header.top::before{content:"";position:absolute;inset:0 0 50%;background:linear-gradient(180deg,rgba(255,255,255,.28),rgba(255,255,255,0));pointer-events:none}
+.themesw{background:linear-gradient(180deg,rgba(255,255,255,.25),rgba(255,255,255,.08));box-shadow:inset 0 1px 0 rgba(255,255,255,.4)}
+.themesw button[aria-pressed="true"]{background:linear-gradient(180deg,#fff,#FFE1EC);box-shadow:0 2px 6px rgba(160,30,90,.3),inset 0 -1px 0 rgba(214,69,127,.2)}
+
+/* 切り替えボタン */
+.seg{background:linear-gradient(180deg,var(--surface2),var(--surface));box-shadow:inset 0 2px 5px rgba(160,30,90,.10)}
+.seg button{position:relative;overflow:hidden;transition:transform .15s,box-shadow .2s}
+.seg button[aria-pressed="true"].d,.seg button[aria-pressed="true"].s{color:#fff;text-shadow:0 1px 1px rgba(0,0,0,.2)}
+.seg button[aria-pressed="true"].d{background:linear-gradient(135deg,#FF8DB9 0%,#E8578F 55%,#C93A78 100%);box-shadow:0 6px 14px rgba(232,87,143,.4),inset 0 1px 0 rgba(255,255,255,.5)}
+.seg button[aria-pressed="true"].s{background:linear-gradient(135deg,#C9A6F5 0%,#9C6ADE 55%,#7A49C2 100%);box-shadow:0 6px 14px rgba(156,106,222,.4),inset 0 1px 0 rgba(255,255,255,.5)}
+.seg button[aria-pressed="true"]::before{content:"";position:absolute;inset:0;background:var(--gloss);border-radius:inherit;pointer-events:none}
+.seg button[aria-pressed="true"]::after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg)}
+@media (prefers-reduced-motion:no-preference){.seg button[aria-pressed="true"]::after{animation:sheen 3.2s ease-in-out infinite}}
+.seg button:active{transform:scale(.97)}
+
+/* セレクト */
+.sel{appearance:none;-webkit-appearance:none;padding:12px 40px 12px 14px;font-weight:700;border:2px solid transparent;border-radius:14px;
+  background:linear-gradient(var(--surface),var(--surface)) padding-box,linear-gradient(120deg,#FF8DB9,#C9A6F5) border-box;
+  background-image:linear-gradient(var(--surface),var(--surface)),linear-gradient(120deg,#FF8DB9,#C9A6F5);
+  box-shadow:0 6px 16px rgba(214,69,127,.12)}
+.sel{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23E8578F' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") right 12px center/18px no-repeat padding-box,linear-gradient(var(--surface),var(--surface)) padding-box,linear-gradient(120deg,#FF8DB9,#C9A6F5) border-box}
+.sel:focus-visible{outline:none;box-shadow:0 0 0 4px rgba(232,87,143,.25)}
+
+/* カード */
+.card,.champ{background:linear-gradient(180deg,var(--surface) 0%,var(--surface) 70%,var(--surface2) 100%);position:relative}
+.card::after,.champ::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.9)}
+:root[data-theme="dark"] .card::after,:root[data-theme="dark"] .champ::after{box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+.champ::before{height:6px;background:linear-gradient(90deg,#FF8DB9,#E8578F,#FF8DB9)}
+.champ.S::before{background:linear-gradient(90deg,#C9A6F5,#9C6ADE,#C9A6F5)}
+
+/* 優勝の帯 */
+.champ .win{position:relative;overflow:hidden;background:linear-gradient(120deg,#FFF0F6 0%,#FFB8D2 40%,#F07AA9 75%,#D94B8A 100%);color:#4A0B2A;box-shadow:0 8px 20px rgba(214,69,127,.3),inset 0 1px 0 rgba(255,255,255,.8)}
+.champ.S .win{background:linear-gradient(120deg,#F6EEFF 0%,#D8BFF7 40%,#B08BEA 75%,#8E5ED6 100%);color:#2C1250;box-shadow:0 8px 20px rgba(156,106,222,.3),inset 0 1px 0 rgba(255,255,255,.8)}
+.champ .win::before{content:"";position:absolute;inset:0 0 55%;background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,0));pointer-events:none}
+.champ .win::after{content:"";position:absolute;top:0;bottom:0;left:-50%;width:35%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.7),transparent);transform:skewX(-20deg)}
+@media (prefers-reduced-motion:no-preference){.champ .win::after{animation:sheen 4s ease-in-out infinite}}
+.champ .win small,.champ .win b{position:relative}
+
+/* 順位の横長枠 */
+.places li{position:relative;overflow:hidden;background:linear-gradient(90deg,var(--surface2) 0%,var(--surface) 100%);border:1px solid var(--line);box-shadow:0 2px 6px rgba(214,69,127,.06),inset 0 1px 0 rgba(255,255,255,.7)}
+.places li::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px}
+.places li.p2::before{background:linear-gradient(180deg,#E9EEF3,#9AA6B2)}
+.places li.p3::before{background:linear-gradient(180deg,#F6C9A8,#C07040)}
+:root[data-theme="dark"] .places li{box-shadow:none}
+
+/* 試合カード */
+.match{background:linear-gradient(180deg,var(--surface) 0%,var(--surface) 60%,var(--surface2) 100%)}
+.match::before{background:linear-gradient(180deg,#FF8DB9,#C93A78)}
+.match.S::before{background:linear-gradient(180deg,#C9A6F5,#7A49C2)}
+.row.w .tn::after{background:linear-gradient(135deg,#FF7EAF,#D6336F);box-shadow:0 2px 5px rgba(214,51,111,.35)}
+.sets span{background:linear-gradient(180deg,var(--surface),var(--surface2));border:1px solid var(--line)}
+.dv{box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 2px 5px rgba(0,0,0,.12)}
+.dv.D{background:linear-gradient(135deg,#FF8DB9,#D6457F)}.dv.S{background:linear-gradient(135deg,#C9A6F5,#8257CF)}
+
+/* 表 */
+th{background:linear-gradient(180deg,var(--surface2),var(--surface))}
+tr.adv td{background:linear-gradient(90deg,rgba(232,87,143,.14),rgba(232,87,143,.03))}
+.S tr.adv td{background:linear-gradient(90deg,rgba(156,106,222,.16),rgba(156,106,222,.03))}
+
+/* チーム成績の枠 */
+.rec span{background:linear-gradient(180deg,var(--surface),var(--surface2));border:1px solid var(--line);box-shadow:0 3px 8px rgba(214,69,127,.08),inset 0 1px 0 rgba(255,255,255,.8)}
+
+/* 下のメニュー */
+.bottomnav{background:linear-gradient(180deg,var(--surface),var(--surface2))}
+.bottomnav button{position:relative;transition:color .2s}
+.bottomnav button[aria-current="page"]{color:#fff}
+.bottomnav button[aria-current="page"]::before{content:"";position:absolute;inset:0 6px;border-radius:14px;z-index:-1;background:linear-gradient(135deg,#FF8DB9,#E8578F 55%,#B85BC9);box-shadow:0 6px 14px rgba(214,69,127,.35),inset 0 1px 0 rgba(255,255,255,.5)}
+.bottomnav button[aria-current="page"]::after{content:"";position:absolute;inset:0 6px 50%;border-radius:14px 14px 0 0;z-index:-1;background:linear-gradient(180deg,rgba(255,255,255,.35),rgba(255,255,255,0))}
+:root[data-theme="dark"] .bottomnav button[aria-current="page"]{color:#fff}
+.bottomnav .in{position:relative;z-index:0}
+
+/* ヒーロー */
+.hero::before{content:"";position:absolute;inset:0 0 55%;background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,255,255,0));pointer-events:none}
+.hero .done{background:linear-gradient(180deg,#fff,#FFE1EC);box-shadow:0 6px 14px rgba(120,20,70,.3),inset 0 -2px 0 rgba(214,69,127,.2)}
+
+@keyframes sheen{0%{left:-60%}55%,100%{left:130%}}
+.bk .gb1{stop-color:#FFFFFF}.bk .gb2{stop-color:#FFF0F6}.bk .gb3{stop-color:#FBDDEA}
+:root[data-theme="dark"] .bk .gb1{stop-color:#463B48}:root[data-theme="dark"] .bk .gb2{stop-color:#382F3B}:root[data-theme="dark"] .bk .gb3{stop-color:#2E2830}
+.bk .champ{filter:drop-shadow(0 4px 6px rgba(214,69,127,.35))}
+tr.adv td{background:rgba(232,87,143,.10)}
+.S tr.adv td{background:rgba(156,106,222,.12)}
+tr.adv td:first-child{box-shadow:inset 4px 0 0 #E8578F}
+.S tr.adv td:first-child{box-shadow:inset 4px 0 0 #9C6ADE}
