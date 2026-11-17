@@ -34,6 +34,17 @@ var FINAL={};
   FINAL[d]={win:rt.win,run:rt.lose,third:sf.map(function(s){return s.lose}),best8:qf};
   Object.keys(T.m).forEach(function(id){res(d,id)});
 });
+/* ---------- 4コート進行（表示イメージ：予選の試合順・時刻は仮） ---------- */
+var COURTS=['A','B','C','D'],CC={A:'#E8578F',B:'#9C6ADE',C:'#F0855A',D:'#2FAE9F'};
+var ORDER=[[1,2],[3,4],[1,3],[2,4],[1,4],[2,3]];
+function lm(k,idx){var a=ORDER[idx][0],b=ORDER[idx][1],r=LG[k].h[a+'|'+b];return {kind:'pre',lg:k,div:L[k].div,a:L[k].t[a-1],b:L[k].t[b-1],sa:r[0],sb:r[1]}}
+var PLAN={A:{l:['A','B','C'],h:'M',hi:[0,1,2],at:[0,2,4]},B:{l:['D','E','F'],h:'M',hi:[3,4,5],at:[1,3,5]},C:{l:['G','H','I'],h:'N',hi:[0,1,2],at:[0,2,4]},D:{l:['J','K','L'],h:'N',hi:[3,4,5],at:[1,3,5]}};
+var SCHED={};
+COURTS.forEach(function(c){var P=PLAN[c],list=[],q=0;for(var k=0;k<6;k++){P.l.forEach(function(x){list.push(lm(x,k))});if(P.at.indexOf(k)>=0){list.push(lm(P.h,P.hi[q]));q++}}
+  SCHED[c]=list.map(function(m,i){m.no=i+1;m.court=c;return m});
+  ['D','S'].forEach(function(d){Object.keys(TR[d].m).forEach(function(id){if(id[0]===c){var o=RES[d+id];SCHED[c][+id.slice(1)-1]={kind:'tour',no:+id.slice(1),court:c,o:o,div:d}}})});
+});
+function slotTime(n){var base=n<=21?9*60+40+(n-1)*8:({22:800,23:808,24:816,25:824,26:832,27:840,28:855,29:885})[n];return Math.floor(base/60)+':'+String(base%60).padStart(2,'0')}
 function teamTour(n){var out=[];Object.keys(RES).forEach(function(k){var o=RES[k];if(o.a===n||o.b===n)out.push(o)});return out.sort(function(p,q){return p.id.slice(1)-q.id.slice(1)||(p.id<q.id?-1:1)})}
 function finish(n){var t=TEAM[n],d=t.div,F=FINAL[d];if(F.win===n)return '優勝';if(F.run===n)return '準優勝';if(F.third.indexOf(n)>=0)return '第3位';if(F.best8.indexOf(n)>=0)return 'ベスト8';
   if(TR[d].seeds[n])return '決勝トーナメント進出';return '予選リーグ '+t.lg+'リーグ'+t.rank+'位'}
@@ -42,6 +53,7 @@ function finish(n){var t=TEAM[n],d=t.div,F=FINAL[d];if(F.win===n)return '優勝'
 var ICON={
   sun:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>',
   moon:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 14.6A8.6 8.6 0 0 1 9.4 3.5a8.6 8.6 0 1 0 11.1 11.1z"/></svg>',
+  sched:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M7.5 4v16M12 4v16M16.5 4v16M3 9h18"/></svg>',
   top:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v4a5 5 0 0 1-10 0z"/><path d="M7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3M12 13v4M8 20h8M9 17h6"/></svg>',
   league:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 9h18M3 14.5h18M9 4v16"/></svg>',
   tour:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h5v5H3M3 14h5v5H3M8 7.5h3v9H8M11 12h4"/><path d="M15 9h6v6h-6z"/></svg>',
@@ -132,6 +144,27 @@ function viewTour(){
   return h;
 }
 
+/* ---------- 進行（4コート） ---------- */
+function cell(m){
+  if(!m)return '<div class="sc-cell empty">—</div>';
+  if(m.kind==='tour'){var o=m.o,hl=pick&&(o.a===pick||o.b===pick);
+    return '<div class="sc-cell tourc '+m.div+(hl?' hl':'')+'"><div class="sc-h"><span class="dv '+m.div+'">'+m.div+'-1G</span><span>'+esc(o.m.r)+'</span></div>'+
+     '<div class="sc-r'+(o.aw?' w':'')+'"><span>'+esc(o.a)+'</span><b>'+o.sa+'</b></div><div class="sc-r'+(!o.aw?' w':'')+'"><span>'+esc(o.b)+'</span><b>'+o.sb+'</b></div>'+(o.m.sets?'<div class="sc-s">'+o.m.sets.map(function(x){return x[0]+'-'+x[1]+(x[2]?'V':'')}).join(' / ')+'</div>':'')+(o.m.v?'<div class="sc-s">Vポイント決着</div>':'')+'</div>'}
+  var hl=pick&&(m.a===pick||m.b===pick),aw=m.sa>m.sb,bw=m.sb>m.sa;
+  return '<div class="sc-cell '+m.div+(hl?' hl':'')+'"><div class="sc-h"><span class="dv '+m.div+'">'+m.div+'-1G</span><span>'+m.lg+'リーグ</span></div><div class="sc-r'+(aw?' w':'')+'"><span>'+esc(m.a)+'</span><b>'+m.sa+'</b></div><div class="sc-r'+(bw?' w':'')+'"><span>'+esc(m.b)+'</span><b>'+m.sb+'</b></div>'+(m.sa===m.sb?'<div class="sc-s">引き分け</div>':'')+'</div>';
+}
+function viewSched(){
+  var h='<div style="display:grid;gap:8px"><h2>試合進行（4コート）</h2><div class="demo">この画面は、A・B・C・Dの4コートで同時に進める大会の<b>進行表の表示イメージ</b>です。予選リーグの試合順と各時刻は仮の割り当てで、実際の進行順とは異なります（試合結果・決勝トーナメントの試合番号は大会公式の結果どおり）。</div>'+
+   '<select id="pick" class="sel" aria-label="チームで絞り込む">'+teamOpts().replace('チームを選ぶ','チームを選んで試合を光らせる')+'</select><p class="note">横にスライドすると4コートすべてを見られます。パソコンでは4コートが横に並びます。</p></div>';
+  h+='<div class="sc-wrap"><div class="sc-grid"><div class="sc-corner">試合</div>'+COURTS.map(function(c){return '<div class="sc-court" style="--cc:'+CC[c]+'">'+c+'コート</div>'}).join('');
+  for(var n=1;n<=29;n++){
+    if(n===1)h+='<div class="sc-sep">予選リーグ（各コート 第1〜21試合）</div>';
+    if(n===22)h+='<div class="sc-sep">昼休憩 → 決勝トーナメント（第22試合〜）</div>';
+    h+='<div class="sc-no"><b>'+n+'</b><small>'+slotTime(n)+'</small></div>'+COURTS.map(function(c){return cell(SCHED[c][n-1])}).join('');
+  }
+  h+='</div></div>';
+  return h;
+}
 /* ---------- 要項 ---------- */
 function viewInfo(){
   return '<div class="card"><h2>大会概要</h2><dl class="info"><dt>大会名</dt><dd>第12回全日本女子総合ドッジボール選手権</dd><dt>期日</dt><dd>2025年12月7日（日）9:00〜17:15<br><span class="note">チーム受付 8:20〜8:35</span></dd><dt>会場</dt><dd>滋賀ダイハツアリーナ<br><span class="note">滋賀県大津市上田上中野町779番地</span></dd><dt>主催</dt><dd>一般財団法人日本ドッジボール協会</dd><dt>後援</dt><dd>スポーツ庁、公益財団法人日本スポーツ協会、公益財団法人日本レクリエーション協会、滋賀県、大津市</dd><dt>協力</dt><dd>ミズノ株式会社、株式会社ミカサ、株式会社モルテン、株式会社共同写真企画、株式会社プロフォートサニー、株式会社フィス、株式会社ヨコブリシ、株式会社アンフィニプロジェクト、ヤマダイ株式会社、株式会社東横イン、滋賀ダイハツ販売株式会社、株式会社南洋軒、株式会社Re･Shine、近畿日本ツーリスト株式会社、公益財団法人ＳＧＨ文化スポーツ振興財団</dd><dt>助成</dt><dd>公益財団法人スポーツ安全協会 スポーツ普及奨励助成事業／公益財団法人ミズノスポーツ振興財団 助成事業</dd><dt>出場</dt><dd>D-1Gの部 36チーム／S-1Gの部 20チーム</dd></dl></div>'+
@@ -143,9 +176,9 @@ function viewInfo(){
 /* ---------- 画面 ---------- */
 function render(){
   var th=document.documentElement.getAttribute('data-theme');
-  var body=tab==='league'?viewLeague():tab==='tour'?viewTour():tab==='info'?viewInfo():viewTop();
-  var tabs=[['top','結果',ICON.top],['league','予選',ICON.league],['tour','トーナメント',ICON.tour],['info','要項',ICON.info]];
-  var y=window.scrollY;
+  var body=tab==='sched'?viewSched():tab==='league'?viewLeague():tab==='tour'?viewTour():tab==='info'?viewInfo():viewTop();
+  var tabs=[['top','結果',ICON.top],['sched','進行',ICON.sched],['league','予選',ICON.league],['tour','トーナメント',ICON.tour],['info','要項',ICON.info]];
+  var y=window.scrollY;document.body.classList.toggle('wide',tab==='sched');
   document.getElementById('app').innerHTML=
    '<header class="top"><div class="wrap"><img class="lg" src="img/logo.webp" alt="" width="864" height="713"><div class="tt"><b>第12回 全日本女子総合ドッジボール選手権</b><span>2025.12.7 滋賀ダイハツアリーナ</span></div>'+
    '<div class="themesw" role="group" aria-label="表示モード"><button type="button" data-th="light" aria-label="ライトモード" aria-pressed="'+(th!=='dark')+'">'+ICON.sun+'</button><button type="button" data-th="dark" aria-label="ダークモード" aria-pressed="'+(th==='dark')+'">'+ICON.moon+'</button></div></div></header>'+
