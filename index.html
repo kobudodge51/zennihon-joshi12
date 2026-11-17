@@ -12,7 +12,7 @@
 <script>(function(){var t=null;try{t=localStorage.getItem('jw-theme')}catch(e){}if(t!=='dark'&&t!=='light'){t=(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light'}document.documentElement.setAttribute('data-theme',t)})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Oswald:wght@600&display=swap">
-<link rel="stylesheet" href="style.css?v=8">
+<link rel="stylesheet" href="style.css?v=9">
 </head>
 <body>
 <div id="intro" aria-hidden="true">
@@ -35,7 +35,7 @@ function go(){if(started)return;started=true;el.classList.add('go');setTimeout(e
 var im=el.querySelector('img');if(im.complete)go();else{im.onload=go;im.onerror=go}
 setTimeout(go,1500);setTimeout(end,8000)})();</script>
 <div id="app"></div>
-<script src="data.js?v=1"></script>
-<script src="app.js?v=6"></script>
+<script src="data.js?v=2"></script>
+<script src="app.js?v=7"></script>
 </body>
 </html>

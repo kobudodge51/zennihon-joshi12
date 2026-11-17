@@ -323,3 +323,8 @@ tr.adv td:first-child{box-shadow:inset 4px 0 0 #E8578F}
 .sc-corner,.sc-court{position:relative;top:auto}
 .sc-court{position:relative}
 .sc-wrap{scroll-snap-type:none}.sc-court{scroll-snap-align:none}
+td.name em,.sc-r span em,.places em,.champ .win em{display:block;font-style:normal;font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.02em;margin-top:1px}
+.champ .win em{color:inherit;opacity:.75;font-size:11.5px;position:relative}
+.places li span em{display:block}
+.bk .vtx{fill:#9C6ADE;font-weight:700}
+.vline{display:inline-block}.vline i{font-style:normal;color:#9C6ADE}
