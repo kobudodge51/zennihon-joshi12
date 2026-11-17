@@ -94,7 +94,7 @@ function viewLeague(){
 /* ---------- トーナメント表 ---------- */
 function est(s,z){var l=0;String(s).split('').forEach(function(c){l+=c.charCodeAt(0)>255?z:z*0.58});return l}
 function fitText(x,y,t,z,maxw,cls,anchor){var s=z;while(s>6.5&&est(t,s)>maxw)s-=0.5;return '<text x="'+x+'" y="'+y+'" font-size="'+s+'"'+(anchor?' text-anchor="'+anchor+'"':'')+(cls?' class="'+cls+'"':'')+'>'+esc(t)+'</text>'}
-function line(p,k){var col=k==='win'?'var(--path-win)':k==='lose'?'var(--path-lose)':'var(--path-none)';return '<polyline'+(k==='win'?' class="glow" style="color:'+col+'"':'')+' points="'+p+'" fill="none" stroke="'+col+'" stroke-width="'+(k==='win'?4.5:3)+'" stroke-linejoin="round" stroke-linecap="round"/>'}
+function line(p,k){var col=k==='win'?'var(--path-win)':k==='lose'?'var(--path-lose)':'var(--path-none)';return '<polyline'+(k==='win'?' class="glow" style="color:'+col+'"':'')+' points="'+p+'" fill="none" stroke="'+col+'" stroke-width="'+(k==='win'?4.5:1.8)+'" stroke-linejoin="round" stroke-linecap="round"/>'}
 function stag(x,y,v){return '<rect class="scbg" x="'+(x-10)+'" y="'+(y-11)+'" width="20" height="14" rx="3"/><text x="'+x+'" y="'+y+'" font-size="10" text-anchor="middle" class="sct">'+v+'</text>'}
 function bracket(d){
   var T=TR[d],root=T.root;
@@ -120,7 +120,7 @@ function bracket(d){
 }
 function viewTour(){
   var d=tdiv,F=FINAL[d],T=TR[d];
-  var h='<div style="display:grid;gap:8px"><h2>決勝トーナメント</h2>'+seg('tdiv',d)+'<p class="note">準々決勝までは5分1セットマッチ、準決勝・決勝は5分3セットマッチ（2セット先取）。3位決定戦はなく、準決勝で負けた2チームが第3位です。表の数字は内野人数（3セットマッチは取ったセット数）。</p><div class="legend"><span><i style="background:var(--path-win)"></i>勝ち上がり</span><span><i style="background:var(--path-lose)"></i>敗退</span><span><span class="vp" style="margin:0">V</span> Vポイントで決着</span></div></div>';
+  var h='<div style="display:grid;gap:8px"><h2>決勝トーナメント</h2>'+seg('tdiv',d)+'<p class="note">準々決勝までは5分1セットマッチ、準決勝・決勝は5分3セットマッチ（2セット先取）。3位決定戦はなく、準決勝で負けた2チームが第3位です。表の数字は内野人数（3セットマッチは取ったセット数）。</p><div class="legend"><span><i style="background:var(--path-win)"></i>勝ち上がり</span><span><span class="vp" style="margin:0">V</span> Vポイントで決着</span></div></div>';
   h+='<div class="card"><h3><span class="dv '+d+'">'+DIVN[d]+'</span> トーナメント表</h3>'+bracket(d)+'</div>';
   var ids=Object.keys(T.m),order=['1回戦','2回戦','準々決勝','準決勝','決勝'];
   order.forEach(function(r){var list=ids.filter(function(id){return T.m[id].r===r});if(!list.length)return;
