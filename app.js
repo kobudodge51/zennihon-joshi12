@@ -73,7 +73,7 @@ function matchHTML(o){
 /* ---------- 結果（トップ） ---------- */
 function viewTop(){
   var h='<section class="hero">'+sparks()+'<img class="lg" src="img/logo.webp" alt="DODGEBALL CHAMPIONSHIP J.D.B.A. ALL-JAPAN GIRLS 2025" width="864" height="713"><p class="t1">第12回 全日本女子総合ドッジボール選手権</p><p class="t2">2025年12月7日（日）｜滋賀ダイハツアリーナ</p><span class="done">大会結果</span></section>';
-  h+='<div class="champs">'+['D','S'].map(function(d){var F=FINAL[d];return '<div class="champ '+d+'"><h3><span class="dv '+d+'">'+DIVN[d]+'</span></h3><div class="win"><small>🏆 優勝</small><b>'+esc(F.win)+'</b><em>'+esc(fr(F.win))+'</em></div><ol class="places"><li class="p2"><span class="pl">準優勝</span><span>'+esc(F.run)+'<em>'+esc(fr(F.run))+'</em></span></li>'+F.third.map(function(n){return '<li class="p3"><span class="pl">第3位</span><span>'+esc(n)+'<em>'+esc(fr(n))+'</em></span></li>'}).join('')+'</ol><p class="best8">ベスト8：<b>'+F.best8.map(esc).join('</b>・<b>')+'</b></p></div>'}).join('')+'</div>';
+  h+='<div class="champs">'+['D','S'].map(function(d){var F=FINAL[d];return '<div class="champ '+d+'"><h3><span class="dv '+d+'">'+DIVN[d]+'</span></h3><div class="win"><i class="tw" style="left:12%;top:22%"></i><i class="tw" style="left:84%;top:18%;animation-delay:-.8s"></i><i class="tw" style="left:70%;top:76%;animation-delay:-1.6s"></i><small>🏆 優勝</small><b>'+esc(F.win)+'</b><em>'+esc(fr(F.win))+'</em></div><ol class="places"><li class="p2"><span class="pl"><i class="md">2</i>準優勝</span><span>'+esc(F.run)+'<em>'+esc(fr(F.run))+'</em></span></li>'+F.third.map(function(n){return '<li class="p3"><span class="pl"><i class="md">3</i>第3位</span><span>'+esc(n)+'<em>'+esc(fr(n))+'</em></span></li>'}).join('')+'</ol><p class="best8">ベスト8：<b>'+F.best8.map(esc).join('</b>・<b>')+'</b></p></div>'}).join('')+'</div>';
   h+='<div class="card"><h2>チームで探す</h2><select id="pick" class="sel" aria-label="チームを選ぶ">'+teamOpts()+'</select>'+(pick&&TEAM[pick]?teamCard(pick):'<p class="note">チームを選ぶと、予選リーグの成績と決勝トーナメントの試合をまとめて表示します。</p>')+'</div>';
   return h;
 }
@@ -142,22 +142,23 @@ function viewTour(){
 }
 
 /* ---------- 進行（4コート） ---------- */
-function cell(m){
-  if(!m)return '<div class="sc-cell empty">—</div>';
+function cell(m,c){
+  var cb='<i class="sc-cb" style="--cc:'+CC[c]+'">'+c+'</i>';
+  if(!m)return '<div class="sc-cell empty">'+cb+'—</div>';
   if(m.kind==='tour'){var o=m.o,hl=pick&&(o.a===pick||o.b===pick);
-    return '<div class="sc-cell tourc '+m.div+(hl?' hl':'')+'"><div class="sc-h"><span class="dv '+m.div+'">'+m.div+'-1G</span><span>'+esc(o.m.r)+'</span></div>'+
+    return '<div class="sc-cell tourc '+m.div+(hl?' hl':'')+'"><div class="sc-h">'+cb+'<span class="dv '+m.div+'">'+m.div+'-1G</span><span>'+esc(o.m.r)+'</span></div>'+
      '<div class="sc-r'+(o.aw?' w':'')+'"><span>'+esc(o.a)+'<em>'+esc(fr(o.a))+'</em></span><b>'+o.sa+'</b></div><div class="sc-r'+(!o.aw?' w':'')+'"><span>'+esc(o.b)+'<em>'+esc(fr(o.b))+'</em></span><b>'+o.sb+'</b></div>'+(o.m.sets?'<div class="sc-s">'+o.m.sets.map(function(x){return x[0]+'-'+x[1]+(x[2]?'V':'')}).join(' / ')+'</div>':'')+(o.m.v?'<div class="sc-s">'+(o.m.pre?'時間終了 '+o.m.pre[0]+'-'+o.m.pre[1]+' → V → '+o.sa+'-'+o.sb:'Vポイント決着')+'</div>':'')+'</div>'}
   var hl=pick&&(m.a===pick||m.b===pick),aw=m.sa>m.sb,bw=m.sb>m.sa;
-  return '<div class="sc-cell '+m.div+(hl?' hl':'')+'"><div class="sc-h"><span class="dv '+m.div+'">'+m.div+'-1G</span><span>'+m.lg+'リーグ</span></div><div class="sc-r'+(aw?' w':'')+'"><span>'+esc(m.a)+'<em>'+esc(fr(m.a))+'</em></span><b>'+m.sa+'</b></div><div class="sc-r'+(bw?' w':'')+'"><span>'+esc(m.b)+'<em>'+esc(fr(m.b))+'</em></span><b>'+m.sb+'</b></div>'+(m.sa===m.sb?'<div class="sc-s">引き分け</div>':'')+'</div>';
+  return '<div class="sc-cell '+m.div+(hl?' hl':'')+'"><div class="sc-h">'+cb+'<span class="dv '+m.div+'">'+m.div+'-1G</span><span>'+m.lg+'リーグ</span></div><div class="sc-r'+(aw?' w':'')+'"><span>'+esc(m.a)+'<em>'+esc(fr(m.a))+'</em></span><b>'+m.sa+'</b></div><div class="sc-r'+(bw?' w':'')+'"><span>'+esc(m.b)+'<em>'+esc(fr(m.b))+'</em></span><b>'+m.sb+'</b></div>'+(m.sa===m.sb?'<div class="sc-s">引き分け</div>':'')+'</div>';
 }
 function viewSched(){
   var h='<div style="display:grid;gap:8px"><h2>試合進行（4コート）</h2><p class="note">A・B・C・Dの4コートで同時に進行。試合順と開始時刻は大会公式の対戦表どおりです。</p>'+
-   '<select id="pick" class="sel" aria-label="チームで絞り込む">'+teamOpts().replace('チームを選ぶ','チームを選んで試合を光らせる')+'</select><p class="note">横にスライドすると4コートすべてを見られます。パソコンでは4コートが横に並びます。</p></div>';
+   '<select id="pick" class="sel" aria-label="チームで絞り込む">'+teamOpts().replace('チームを選ぶ','チームを選んで試合を光らせる')+'</select><p class="note">各試合番号ごとに、A〜Dの4コートの対戦をまとめて表示しています。</p></div>';
   h+='<div class="sc-wrap"><div class="sc-grid"><div class="sc-corner">試合</div>'+COURTS.map(function(c){return '<div class="sc-court" style="--cc:'+CC[c]+'">'+c+'コート</div>'}).join('');
   for(var n=1;n<=29;n++){
     if(n===1)h+='<div class="sc-sep">予選リーグ（各コート 第1〜21試合）</div>';
     if(n===22)h+='<div class="sc-sep">昼休憩 → 決勝トーナメント（第22試合〜）</div>';
-    h+='<div class="sc-no"><b>'+n+'</b><small>'+slotTime(n)+'</small></div>'+COURTS.map(function(c){return cell(SCHED[c][n-1])}).join('');
+    h+='<div class="sc-slot"><div class="sc-no"><b>'+n+'</b><small>'+slotTime(n)+'</small><span class="sc-mh">第'+n+'試合　'+slotTime(n)+'</span></div>'+COURTS.map(function(c){return cell(SCHED[c][n-1],c)}).join('')+'</div>';
   }
   h+='</div></div>';
   return h;

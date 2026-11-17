@@ -68,11 +68,11 @@ window.JW.FROM={
  "SUPERBUTTERFLY":"岐阜県","Kyoto Lovely":"京都府","Rainbow Star":"岡山県","YHDG":"神奈川県②",
  "あきちゃんズ":"神奈川県①","TFG BM マジック":"愛知県②","燃えろ！広島ガールズ":"広島県","須賀川牡丹姫":"日本協会推薦",
  "SML-girls":"兵庫県","CROWD PEGASUS":"群馬県","Little Amaterasu":"島根県","Matsumoto 桜華絢爛":"福井県",
- "Rush Belle":"関西ブロック④","Fairy White":"東北ブロック②","愛LUSH":"北信越ブロック①","糜爛":"九州ブロック①",
- "THUNDERラム":"北信越ブロック②","の〜てんき":"東海ブロック①","千葉チェるシー":"関東ブロック③","TON CLUB":"中国ブロック①",
- "FACELESS":"関西ブロック①","POWERPUFF SENIOR":"東海ブロック③","zest":"中国ブロック②","KABUPiNK":"関東ブロック②",
- "RESPECT CREW":"関東ブロック①","DOPAL":"東海ブロック②","BUCKS":"関西ブロック③","阿波club蓮":"四国ブロック①",
- "V-Girls":"四国ブロック②","くノ一":"九州ブロック②","岡田なでしこJAPAN":"関西ブロック②","Lanakila☆":"東北ブロック①"
+ "Rush Belle":"関西④","Fairy White":"東北②","愛LUSH":"北信越①","糜爛":"九州①",
+ "THUNDERラム":"北信越②","の〜てんき":"東海①","千葉チェるシー":"関東③","TON CLUB":"中国①",
+ "FACELESS":"関西①","POWERPUFF SENIOR":"東海③","zest":"中国②","KABUPiNK":"関東②",
+ "RESPECT CREW":"関東①","DOPAL":"東海②","BUCKS":"関西③","阿波club蓮":"四国①",
+ "V-Girls":"四国②","くノ一":"九州②","岡田なでしこJAPAN":"関西②","Lanakila☆":"東北①"
 };
 /* 大会公式の進行（各試合番号の A/B/C/D コートの対戦。数字はチーム番号） */
 window.JW.SLOTS=[

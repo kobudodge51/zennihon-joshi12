@@ -328,3 +328,48 @@ td.name em,.sc-r span em,.places em,.champ .win em{display:block;font-style:norm
 .places li span em{display:block}
 .bk .vtx{fill:#9C6ADE;font-weight:700}
 .vline{display:inline-block}.vline i{font-style:normal;color:#9C6ADE}
+
+/* ===== 進行表：パソコンは4列、スマホは縦だけで見る ===== */
+.sc-slot{display:contents}
+.sc-cb{display:none}
+.sc-mh{display:none}
+@media (max-width:760px){
+  .sc-wrap{overflow:visible;margin:0;padding:0}
+  .sc-grid{display:grid;grid-template-columns:1fr;min-width:0;gap:10px}
+  .sc-corner,.sc-court{display:none}
+  .sc-slot{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:8px;border-radius:16px;background:linear-gradient(180deg,var(--surface),var(--surface2));border:1px solid var(--line);box-shadow:var(--shadow)}
+  .sc-no{grid-column:1/-1;display:flex;justify-content:flex-start;align-items:center;background:none;border:0;padding:2px 4px}
+  .sc-no b,.sc-no small{display:none}
+  .sc-mh{display:block;font-family:var(--head);font-size:14px;letter-spacing:.04em;color:var(--ink)}
+  .sc-cell{padding:6px 7px 6px 9px;font-size:11.5px;min-width:0}
+  .sc-cb{display:inline-grid;place-items:center;width:17px;height:17px;border-radius:5px;color:#fff;font-style:normal;font-family:var(--head);font-size:10px;background:var(--cc);flex:none}
+  .sc-cell.empty{display:flex;gap:6px;justify-content:flex-start;padding-left:9px}
+  .sc-h{gap:4px}
+  .sc-h .dv{display:none}
+  .sc-r b{font-size:15px}
+  .sc-r span em{font-size:9.5px}
+  .sc-sep{font-size:12px}
+}
+
+/* ===== 優勝の帯（豪華版・高コントラスト） ===== */
+.champ .win{background:linear-gradient(135deg,#6E0C3F 0%,#B3175A 45%,#E0457F 100%);color:#fff;border:0;padding:16px 16px 14px;
+  box-shadow:0 12px 26px rgba(150,20,80,.4),inset 0 0 0 1.5px rgba(255,214,120,.85),inset 0 1px 0 rgba(255,255,255,.35)}
+.champ.S .win{background:linear-gradient(135deg,#2E1063 0%,#5A2CA8 45%,#8E5ED6 100%);color:#fff;box-shadow:0 12px 26px rgba(80,40,160,.4),inset 0 0 0 1.5px rgba(255,214,120,.85),inset 0 1px 0 rgba(255,255,255,.35)}
+.champ .win small{color:#FFD978;font-size:13px;letter-spacing:.14em;text-shadow:0 1px 2px rgba(0,0,0,.3)}
+.champ .win b{font-size:26px;color:#fff;text-shadow:0 2px 6px rgba(0,0,0,.35),0 0 18px rgba(255,200,230,.45)}
+.champ .win em{color:#FFE3EE;opacity:1;font-size:12px;font-weight:700}
+.champ.S .win em{color:#E9DCFF}
+.champ .win::before{background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,255,255,0))}
+.champ .win .tw{position:absolute;width:10px;height:10px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0l2.8 9.2L24 12l-9.2 2.8L12 24l-2.8-9.2L0 12l9.2-2.8z' fill='%23FFE08A'/%3E%3C/svg%3E") center/contain no-repeat;opacity:.9}
+@media (prefers-reduced-motion:no-preference){.champ .win .tw{animation:tw 2.4s ease-in-out infinite}}
+@keyframes tw{0%,100%{transform:scale(.5);opacity:.3}50%{transform:scale(1.2) rotate(45deg);opacity:1}}
+.places li{padding:9px 12px;font-size:15px;color:var(--ink);background:var(--surface);border:1px solid var(--line)}
+.places li span em{color:var(--muted)}
+.places .pl{display:flex;align-items:center;gap:6px;color:var(--ink);font-size:12.5px}
+.places li.p2 .pl,.places li.p3 .pl{color:var(--ink)}
+.places .md{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;font-style:normal;font-family:var(--num);font-size:12px;color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 2px 4px rgba(0,0,0,.2)}
+.places li.p2 .md{background:linear-gradient(135deg,#F2F4F7,#A7B0BA 60%,#7F8994);color:#2B3138}
+.places li.p3 .md{background:linear-gradient(135deg,#F8D2B0,#C9834D 60%,#9A5A2C)}
+.places li.p2::before{background:linear-gradient(180deg,#E9EEF3,#8F9AA6)}
+.places{grid-template-columns:1fr}
+.places li{grid-template-columns:6.4em 1fr}
